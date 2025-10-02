@@ -59,6 +59,30 @@ We welcome contributions of all skill levels.
 
 ---
 
+## Get Recognized with the All-Contributors Bot
+We use the [All Contributors Bot](https://allcontributors.org/docs/en/bot/usage) to recognize and celebrate all types of contributions. 
+
+**How to add yourself:**
+1. After your Pull Request is merged, comment on the PR or in a new issue with:
+   ```
+   @all-contributors please add @your-github-username for code, doc, ideas
+   ```
+   - Replace `@your-github-username` with your GitHub handle.
+   - List your contribution types (e.g., `code`, `doc`, `ideas`, `bug`, `review`).
+   - [See all contribution types here.](https://allcontributors.org/docs/en/emoji-key)
+
+2. The bot will create a Pull Request to add you to the contributors table in the README.
+3. A maintainer will review and merge the bot’s PR.
+
+**Example:**
+```
+@all-contributors please add @Alexandrbig1 for code, doc, maintenance, projectManagement
+``` 
+
+If you have questions, ask in your PR or open an issue!
+
+---
+
 ## Guidelines
 - Follow our [Code of Conduct](./CODE_OF_CONDUCT.md)  
 - Use clear, descriptive commit messages  
@@ -87,8 +111,19 @@ We welcome contributions of all skill levels.
 ---
 
 ## Getting Help
-If you’re stuck or unsure, feel free to reach out:  
+If you’re stuck or unsure:
+- Ask in our [GitHub Discussions](https://github.com/orgs/OpenCodeChicago/discussions/2)  
+- Join our [Discord](https://discord.gg/t6MGsCqdFX)  
+- Or email us at [info@opencodechicago.org](mailto:info@opencodechicago.org) 
 
-📧 [info@opencodechicago.org](mailto:info@opencodechicago.org)  
+---
 
-Every contribution matters — big or small.
+## ⭐ Support the Project
+
+If you find this project helpful or enjoy contributing, please consider giving us a ⭐ on GitHub!  
+Starring the repo helps increase its visibility, attracts more contributors, and makes your contributions more visible and valuable for your portfolio or employer. Thank you for supporting open source!
+
+---
+
+Every contribution matters — big or small. ❤️  
+Thank you for helping make Open Code Chicago better!

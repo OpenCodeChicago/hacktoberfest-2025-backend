@@ -9,8 +9,17 @@
     "new": true,
     "goals": ["Build Muscle", "Muscle Recovery", "Meal Replacement"],
     "description": "High-quality whey protein for muscle recovery.",
+    "shortDescription": "High-quality whey protein for muscle recovery.",
+    "longDescription": "CoreX Whey Protein delivers a premium blend of whey concentrate and isolate designed for lean muscle growth, faster recovery, and everyday nutrition. With delicious flavors and easy mixability, it’s the perfect addition to any athlete’s diet.",
+    "usageTips": {
+      "when": "Best used post-workout for muscle recovery or anytime during the day to support lean muscle growth.",
+      "blend": "Mix one scoop into 6–10oz of water, milk, or your favorite beverage. Blend with fruits or nut butters for added flavor and nutrition.",
+      "pairWith": "Pair with CoreX Creatine for enhanced endurance, strength, and recovery."
+    },
+    "quality": ["Non-GMO", "No Artificial Flavors", "Gluten-Free"],
     "image": "https://via.placeholder.com/200"
   },
+
   {
     "name": "CoreX Creatine",
     "price": 24.99,
@@ -21,8 +30,17 @@
     "new": false,
     "goals": ["Athletic Performance", "Build Muscle", "Strength"],
     "description": "Boost your performance with pure creatine monohydrate.",
+    "shortDescription": "Boost your performance with pure creatine monohydrate.",
+    "longDescription": "CoreX Creatine Monohydrate is a clinically proven supplement that helps increase muscle strength, power, and performance during high-intensity workouts.",
+    "usageTips": {
+      "when": "Take daily to support muscle strength and recovery. Best used post-workout or before intense training sessions.",
+      "blend": "Mix one scoop into water, juice, or add to your protein shake. Unflavored for easy stacking.",
+      "pairWith": "Pair with CoreX Whey Protein for a complete strength and recovery stack."
+    },
+    "quality": ["100% Pure Creatine", "Lab Tested", "No Fillers"],
     "image": "https://via.placeholder.com/200"
   },
+
   {
     "name": "CoreX BCAA",
     "price": 19.99,
@@ -33,8 +51,17 @@
     "new": true,
     "goals": ["Muscle Recovery", "Intra-Workout", "BCAAs"],
     "description": "Branched-chain amino acids for muscle recovery.",
+    "shortDescription": "Branched-chain amino acids for muscle recovery.",
+    "longDescription": "CoreX BCAA provides a 2:1:1 ratio of leucine, isoleucine, and valine to support faster recovery, reduce muscle soreness, and fuel workouts.",
+    "usageTips": {
+      "when": "Consume during or after workouts to promote recovery and reduce fatigue.",
+      "blend": "Mix one scoop into 8–12oz of cold water and sip throughout training.",
+      "pairWith": "Pair with CoreX Pre-Game for ultimate workout performance."
+    },
+    "quality": ["Vegan Friendly", "No Artificial Colors", "Sugar-Free"],
     "image": "https://via.placeholder.com/200"
   },
+
   {
     "name": "CoreX Fat Burner",
     "price": 27.99,
@@ -45,8 +72,17 @@
     "new": true,
     "goals": ["Weight Loss", "Metabolism", "Energy"],
     "description": "Thermogenic formula for accelerated fat loss.",
+    "shortDescription": "Thermogenic formula for accelerated fat loss.",
+    "longDescription": "CoreX Fat Burner combines thermogenic ingredients with energy boosters to help you burn calories, improve focus, and enhance workout intensity.",
+    "usageTips": {
+      "when": "Take 1–2 capsules in the morning or before workouts.",
+      "blend": "Consume with water. Avoid taking late in the evening to prevent sleep disruption.",
+      "pairWith": "Stack with CoreX Whey Protein to preserve muscle while cutting fat."
+    },
+    "quality": ["Non-GMO", "Gluten-Free", "No Proprietary Blends"],
     "image": "https://via.placeholder.com/200"
   },
+
   {
     "name": "CoreX Multivitamin",
     "price": 14.99,
@@ -57,6 +93,161 @@
     "new": true,
     "goals": ["Health & Wellness", "Multivitamins", "Joint Health"],
     "description": "Complete daily multivitamin for overall health.",
+    "shortDescription": "Complete daily multivitamin for overall health.",
+    "longDescription": "CoreX Multivitamin is a complete formula designed to support daily energy, immune health, and joint function with essential vitamins and minerals.",
+    "usageTips": {
+      "when": "Take daily in the morning with food.",
+      "blend": "Consume one tablet with a glass of water.",
+      "pairWith": "Use with CoreX Wellness Greens for full-spectrum health support."
+    },
+    "quality": ["No Artificial Colors", "Gluten-Free", "Non-GMO"],
+    "image": "https://via.placeholder.com/200"
+  },
+
+  {
+    "name": "CoreX Amino Surge",
+    "price": 21.99,
+    "category": "Aminos & BCAAs",
+    "flavors": ["Fruit Punch", "Grape"],
+    "sale": 10,
+    "sizes": ["30 servings"],
+    "new": false,
+    "goals": ["BCAAs", "Intra-Workout", "Muscle Recovery"],
+    "description": "Advanced amino acid blend for intra-workout support.",
+    "shortDescription": "Advanced amino acid blend for intra-workout support.",
+    "longDescription": "CoreX Amino Surge delivers a precise blend of amino acids for hydration, muscle repair, and endurance during training sessions.",
+    "usageTips": {
+      "when": "Sip during workouts or immediately after for best recovery.",
+      "blend": "Mix one scoop into 12oz of cold water and consume throughout training.",
+      "pairWith": "Pair with CoreX Pre-Game for peak performance and recovery."
+    },
+    "quality": ["No Sugar Added", "Lab Verified", "Gluten-Free"],
+    "image": "https://via.placeholder.com/200"
+  },
+
+  {
+    "name": "CoreX Garage Sale Protein",
+    "price": 15.99,
+    "category": "Garage Sale",
+    "flavors": ["Chocolate"],
+    "sale": 50,
+    "sizes": ["2lb"],
+    "new": false,
+    "goals": ["Build Muscle", "Meal Replacement"],
+    "description": "Discounted protein powder for budget muscle building.",
+    "shortDescription": "Discounted protein powder for budget muscle building.",
+    "longDescription": "CoreX Garage Sale Protein offers great value without compromising on quality. Ideal for budget-conscious athletes, it provides essential protein for muscle repair and growth, with the same trusted CoreX standard.",
+    "usageTips": {
+      "when": "Use post-workout or as a meal replacement for affordable nutrition.",
+      "blend": "Mix one scoop into water or milk. Shake well for best results.",
+      "pairWith": "Pair with CoreX BCAA for a complete recovery stack."
+    },
+    "quality": ["Budget Friendly", "No Artificial Flavors", "Gluten-Free"],
+    "image": "https://via.placeholder.com/200"
+  },
+
+  {
+    "name": "CoreX Wellness Greens",
+    "price": 29.99,
+    "category": "Health & Wellness",
+    "flavors": ["Berry"],
+    "sale": 0,
+    "sizes": ["30 servings"],
+    "new": true,
+    "goals": ["Health & Wellness", "Multivitamins", "Joint Health"],
+    "description": "Superfood greens for daily health and joint support.",
+    "shortDescription": "Superfood greens for daily health and joint support.",
+    "longDescription": "CoreX Wellness Greens combines nutrient-dense superfoods, antioxidants, and probiotics to support digestion, immunity, and daily energy. A convenient way to add more greens into your routine, it helps balance nutrition and overall wellness.",
+    "usageTips": {
+      "when": "Take daily in the morning or afternoon for best results.",
+      "blend": "Mix one scoop into cold water or juice. Stir or shake well.",
+      "pairWith": "Pair with CoreX Multivitamin for full-spectrum health support."
+    },
+    "quality": ["Non-GMO", "Vegan Friendly", "No Artificial Colors"],
+    "image": "https://via.placeholder.com/200"
+  },
+
+  {
+    "name": "CoreX Hormone Balance",
+    "price": 34.99,
+    "category": "Hormone Health",
+    "flavors": ["Capsule"],
+    "sale": 0,
+    "sizes": ["60 capsules"],
+    "new": true,
+    "goals": ["Testosterone Booster", "Health & Wellness"],
+    "description": "Supports healthy hormone levels and testosterone.",
+    "shortDescription": "Supports healthy hormone levels and testosterone.",
+    "longDescription": "CoreX Hormone Balance is formulated with natural ingredients to support hormone health, energy, and testosterone levels. Perfect for men looking to maintain vitality and performance as part of their active lifestyle.",
+    "usageTips": {
+      "when": "Take daily in the morning with food.",
+      "blend": "Consume one capsule with a glass of water.",
+      "pairWith": "Pair with CoreX Wellness Greens for overall wellness."
+    },
+    "quality": ["No Artificial Colors", "Gluten-Free", "Non-GMO"],
+    "image": "https://via.placeholder.com/200"
+  },
+
+  {
+    "name": "CoreX Isolate Protein",
+    "price": 54.99,
+    "category": "Protein Powder",
+    "flavors": ["Vanilla", "Cookies & Cream"],
+    "sale": 20,
+    "sizes": ["2lb", "5lb"],
+    "new": true,
+    "goals": ["Build Muscle", "Meal Replacement", "Muscle Recovery"],
+    "description": "Premium isolate protein for lean muscle growth.",
+    "shortDescription": "Premium isolate protein for lean muscle growth.",
+    "longDescription": "CoreX Isolate Protein is ultra-filtered to deliver maximum protein content with minimal fat and carbs. Perfect for lean muscle building, it digests quickly, mixes easily, and provides a smooth, delicious taste.",
+    "usageTips": {
+      "when": "Use post-workout or as a high-protein snack.",
+      "blend": "Mix one scoop into water or milk. Shake or blend for a creamy texture.",
+      "pairWith": "Pair with CoreX Creatine for muscle and strength."
+    },
+    "quality": ["High Protein", "Low Carb", "Gluten-Free"],
+    "image": "https://via.placeholder.com/200"
+  },
+
+  {
+    "name": "CoreX Pre-Game",
+    "price": 32.99,
+    "category": "Sports Nutrition",
+    "flavors": ["Blue Raspberry"],
+    "sale": 0,
+    "sizes": ["30 servings"],
+    "new": true,
+    "goals": ["Athletic Performance", "Pre-Workout"],
+    "description": "High-energy pre-workout for peak athletic performance.",
+    "shortDescription": "High-energy pre-workout for peak athletic performance.",
+    "longDescription": "CoreX Pre-Game is a high-stimulant pre-workout designed to increase focus, endurance, and strength output. With caffeine, beta-alanine, and nitric oxide boosters, it primes your body for intense training sessions.",
+    "usageTips": {
+      "when": "Take 20-30 minutes before your workout.",
+      "blend": "Mix one scoop into 8–10oz of cold water. Shake well.",
+      "pairWith": "Pair with CoreX BCAA for best workout results."
+    },
+    "quality": ["No Artificial Colors", "Lab Tested", "Sugar-Free"],
+    "image": "https://via.placeholder.com/200"
+  },
+
+  {
+    "name": "CoreX Slim Burn",
+    "price": 25.99,
+    "category": "Weight Management",
+    "flavors": ["Capsule"],
+    "sale": 15,
+    "sizes": ["60 capsules"],
+    "new": false,
+    "goals": ["Weight Loss", "Metabolism"],
+    "description": "Thermogenic fat burner for effective weight management.",
+    "shortDescription": "Thermogenic fat burner for effective weight management.",
+    "longDescription": "CoreX Slim Burn combines thermogenic ingredients with natural energy boosters to help burn fat, curb cravings, and boost metabolism. A safe, effective aid to complement your diet and exercise plan.",
+    "usageTips": {
+      "when": "Take 1–2 capsules in the morning or before exercise.",
+      "blend": "Consume with water. Do not exceed recommended dosage.",
+      "pairWith": "Pair with CoreX Whey Protein for best results."
+    },
+    "quality": ["Non-GMO", "No Proprietary Blends", "Gluten-Free"],
     "image": "https://via.placeholder.com/200"
   }
 ]
