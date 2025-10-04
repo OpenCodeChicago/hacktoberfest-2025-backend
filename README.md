@@ -213,7 +213,7 @@ Thanks goes to these wonderful people:
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://alexsmagin.dev"><img src="https://avatars.githubusercontent.com/u/107826794?v=4?s=100" width="100px;" alt="Alex Smagin"/><br /><sub><b>Alex Smagin</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/commits?author=Alexandrbig1" title="Code">💻</a> <a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/commits?author=Alexandrbig1" title="Documentation">📖</a> <a href="#maintenance-Alexandrbig1" title="Maintenance">🚧</a> <a href="#projectManagement-Alexandrbig1" title="Project Management">📆</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://profilepress.vercel.app/public/aemon-targaryen#projects"><img src="https://avatars.githubusercontent.com/u/209061965?v=4?s=100" width="100px;" alt="Kaushik KS"/><br /><sub><b>Kaushik KS</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/commits?author=kaushikkanduri" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://profilepress.vercel.app/public/aemon-targaryen#projects"><img src="https://avatars.githubusercontent.com/u/209061965?v=4?s=100" width="100px;" alt="Kaushik KS"/><br /><sub><b>Kaushik KS</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/commits?author=kaushikkanduri" title="Code">💻</a> <a href="#maintenance-kaushikkanduri" title="Maintenance">🚧</a></td>
     </tr>
   </tbody>
 </table>
