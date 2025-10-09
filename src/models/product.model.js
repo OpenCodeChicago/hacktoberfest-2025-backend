@@ -15,6 +15,7 @@ const productSchema = new mongoose.Schema({
   sizes: { type: [String] },
   new: { type: Boolean, default: false },
   goals: { type: [String] },
+  collections: { type: [String], default: [] },
   description: { type: String },
   shortDescription: { type: String },
   longDescription: { type: String },
