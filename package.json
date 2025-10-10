@@ -49,6 +49,7 @@
     "mongoose": "^8.19.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.0.0",
     "eslint": "^9.37.0",
     "nodemon": "^3.1.10"
   }
