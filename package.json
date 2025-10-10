@@ -43,10 +43,13 @@
   "author": "Open Code Chicago",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "mongoose": "^8.19.0"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.19.0",
+    "nodemailer": "^7.0.9"
   },
   "devDependencies": {
     "eslint": "^9.37.0",
