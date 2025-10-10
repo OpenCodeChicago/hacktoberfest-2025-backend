@@ -18,10 +18,10 @@ app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/collections', collectionRoutes);
 
-// Middleware
-app.use(errorHandler);
-//Middleware for not found 404
+// Middleware for not found 404
 app.use(notFound);
+// Global error handler (should be last)
+app.use(errorHandler);
 
 export default app
 

@@ -16,7 +16,7 @@ function escapeRegex(text = "") {
  *  - maxPrice  (number)
  *  - search    (keyword in name/description)
  */
-const getAllProducts = async (req, res) => {
+const getAllProducts = async (req, res, next) => {
   try {
     const category = req.query.category;
     const goals = req.query.goals;
@@ -102,22 +102,22 @@ const getAllProducts = async (req, res) => {
   } catch (error) {
     // Handle any database errors
     console.error('Error fetching products:', error);
-    next(new HttpException(500,'Internal server error while fetching products'));
+    return next(new HttpException(500, 'Internal server error while fetching products'));
   }
 };
 
-const getProductById = async(req,res)=>{
+const getProductById = async (req, res, next) => {
     //fetches ID from request parameters
     const id = req.params.id;
     if(!mongoose.Types.ObjectId.isValid(id)){
         //checks for validity of the id
-        next(new HttpException(400, "Invalid ID format"));
+        return next(new HttpException(400, "Invalid ID format"));
     }
     // fetches the product details if id is valid & exists
     const product = await Product.findById(id);
     if(!product){
         //sends 404 error if product not found
-        next(new HttpException(404, "Product not found"));
+        return next(new HttpException(404, "Product not found"));
     }
     return res.json(product);
 }

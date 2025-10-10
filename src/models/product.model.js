@@ -9,7 +9,6 @@ const usageTipsSchema = new mongoose.Schema({
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
   price: { type: Number, required: true },
-  collection: { type: String },
   category: { type: String },
   flavors: { type: [String] },
   sale: { type: Number, default: 0 },
