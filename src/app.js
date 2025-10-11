@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import productRoutes from './routes/product.routes.js';
+import userRoutes from './routes/user.routes.js';
 import cartRoutes from './routes/cart.routes.js';
 import collectionRoutes from './routes/collection.routes.js';
 import errorHandler from './middleware/error-handler.middleware.js';
@@ -14,6 +15,7 @@ app.get('/',(req,res)=>{
 })
 
 // Routes
+app.use('/api/auth',userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/collections', collectionRoutes);

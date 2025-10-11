@@ -24,22 +24,22 @@ async function getSeedProducts() {
 const seedDB = async()=>{
   try{
     // Connect to MongoDB using the same logic as server.js
-    console.log("🔄 Connecting to MongoDB for seeding...");
+    console.log("Connecting to MongoDB for seeding...");
     await mongoose.connect(process.env.MONGODB_URI);
-    console.log(`✅ Connected to MongoDB: ${mongoose.connection.name}`);
+    console.log(`Connected to MongoDB: ${mongoose.connection.name}`);
     
-    console.log(`🌱 Seeding data to database ${mongoose.connection.name}`);
+    console.log(`Seeding data to database ${mongoose.connection.name}`);
     const seedProducts = await getSeedProducts();
     await Product.deleteMany();
     await Product.insertMany(seedProducts);
-    console.log("✅ Seeding complete.");
+    console.log("Seeding complete.");
     
     // Close connection and exit
     await mongoose.connection.close();
-    console.log("🔌 Database connection closed");
+    console.log("Database connection closed");
     process.exit(0);
   }catch (err) {
-    console.error("❌ Error seeding DB:", err);
+    console.error("Error seeding DB:", err);
     process.exit(1);
   }
 }
