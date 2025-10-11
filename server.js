@@ -11,41 +11,40 @@ const startServer = async () => {
   try {
     // Check if MONGODB_URI is provided
     if (!process.env.MONGODB_URI) {
-      console.error('❌ MONGODB_URI is not defined in environment variables');
+      console.error('MONGODB_URI is not defined in environment variables');
       process.exit(1);
     }
 
     // Connect to MongoDB
-    console.log('🔄 Connecting to MongoDB...');
+    console.log('Connecting to MongoDB...');
     await mongoose.connect(process.env.MONGODB_URI);
-    console.log(`✅ Connected to MongoDB: ${mongoose.connection.name}`);
+    console.log(`MongoDB connected.\nDatabase: ${mongoose.connection.name}`);
 
     // Start Express server
     app.listen(PORT, () => {
-      console.log(`🚀 Server is running on port ${PORT}`);
-      console.log(`📊 Database: ${mongoose.connection.name}`);
+      console.log(`Server is running on port ${PORT}`);
     });
 
   } catch (error) {
-    console.error('❌ Failed to start server:', error.message);
+    console.error('Failed to start server:', error.message);
     process.exit(1);
   }
 };
 
 // Handle MongoDB connection events
 mongoose.connection.on('error', (err) => {
-  console.error('❌ MongoDB connection error:', err);
+  console.error('MongoDB connection error:', err);
 });
 
 mongoose.connection.on('disconnected', () => {
-  console.warn('⚠️  MongoDB disconnected');
+  console.warn('MongoDB disconnected');
 });
 
 // Graceful shutdown
 process.on('SIGINT', async () => {
-  console.log('\n🛑 Shutting down server...');
+  console.log('\nShutting down server...');
   await mongoose.connection.close();
-  console.log('✅ MongoDB connection closed');
+  console.log('MongoDB connection closed');
   process.exit(0);
 });
 
