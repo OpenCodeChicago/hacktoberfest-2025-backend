@@ -4,9 +4,9 @@
  * Includes stack trace in development mode.
  *
  * @param {Error} err - The error object.
- * @param {Request} _req - Express request object (unused).
+ * @param {Request} req - Express request object (unused).
  * @param {Response} res - Express response object.
- * @param {Function} _next - Express next middleware function (unused).
+ * @param {Function} next - Express next middleware function (unused).
  */
 export default function errorHandler(err, req, res, next) {
 
