@@ -9,7 +9,7 @@ router.get('/', getAllProducts);
 // Fetch product by ID
 router.get('/:id',getProductById);
 
-//Fetch product accoridng to sort category
+// Fetch product according to sort category
 router.get('/:sort', getProductBySortCategory);
 
 export default router
