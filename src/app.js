@@ -3,14 +3,11 @@ import cors from 'cors';
 import productRoutes from './routes/product.routes.js';
 import cartRoutes from './routes/cart.routes.js';
 import collectionRoutes from './routes/collection.routes.js';
-import dbConnection from '../scripts/dbConfig.js';
 import errorHandler from './middleware/error-handler.middleware.js';
 import notFound from './middleware/notFound.middleware.js'
 import authRoutes from "./routes/auth.routes.js"
 
 const app = express();
-
-dbConnection();
 app.use(cors());
 app.use(express.json());
 
