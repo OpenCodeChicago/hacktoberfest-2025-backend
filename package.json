@@ -52,7 +52,7 @@
     "express-slow-down": "^3.0.0",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.19.0",
+    "mongoose": "^8.19.1",
     "passport": "^0.7.0"
   },
   "devDependencies": {
