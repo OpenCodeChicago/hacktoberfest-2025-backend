@@ -107,19 +107,50 @@ const getAllProducts = async (req, res, next) => {
 };
 
 const getProductById = async (req, res, next) => {
-    //fetches ID from request parameters
-    const id = req.params.id;
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        //checks for validity of the id
-        return next(new HttpException(400, "Invalid ID format"));
-    }
-    // fetches the product details if id is valid & exists
-    const product = await Product.findById(id);
-    if(!product){
-        //sends 404 error if product not found
-        return next(new HttpException(404, "Product not found"));
-    }
-    return res.json(product);
+  //fetches ID from request parameters
+  const id = req.params.id;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    //checks for validity of the id
+    return next(new HttpException(400, "Invalid ID format"));
+  }
+  // fetches the product details if id is valid & exists
+  const product = await Product.findById(id);
+  if (!product) {
+    //sends 404 error if product not found
+    return next(new HttpException(404, "Product not found"));
+  }
+  return res.json(product);
+}
+
+const getHighlyRecommendedProducts = async (req, res, next) => {
+
+  const productId = req.params.id
+  const limit = parseInt(req.query.limit) || 5
+  if (!mongoose.Types.ObjectId.isValid(productId)) {
+    return next(new HttpException(400, "Invalid ID format"));
+  }
+
+  const product = await Product.findById(productId)
+  if (!product) {
+    return next(new HttpException(404, "Product not found"));
+  }
+
+  const recommendedProducts = await Product.find({
+    $or: [
+      {
+        category: product.category
+      },
+      {
+        goals: { $in: product.goals }
+      }
+    ],
+    _id: { $ne: product._id },
+  }).limit(limit)
+
+  return res.status(200).json({
+    message: "Highly recommended products fetched successfully",
+    products: recommendedProducts
+  })
 }
 
 const getProductBySortCategory = async (req, res, next) => {
@@ -133,11 +164,11 @@ const getProductBySortCategory = async (req, res, next) => {
     rating_asc: { rating: 1 },
     rating_desc: { rating: -1 },
   };
-  sort=typeof sort=="string" && sortOptions[sort]?sortOptions[sort]:sortOptions['best_selling'];
-  const products=(await Product.find()).sort(sort);
-  if(!products)
+  sort = typeof sort == "string" && sortOptions[sort] ? sortOptions[sort] : sortOptions['best_selling'];
+  const products = (await Product.find()).sort(sort);
+  if (!products)
     return next(new HttpException(404, "No products found"));
   return res.json(products);
 }
 
-export {getAllProducts, getProductById, getProductBySortCategory};
+export { getAllProducts, getProductById, getProductBySortCategory, getHighlyRecommendedProducts };
