@@ -26,6 +26,7 @@ export const getCart = async (req, res, next) => {
       data: cart ? cart.items : [],
     });
   } catch (err) {
+    console.error('Cart controller error (getCart):', err);
     next(new HttpException(500, 'Failed to fetch cart'));
   }
 }
@@ -66,6 +67,7 @@ export const addToCart = async (req, res, next) => {
 
     return res.status(200).json({ success: true, data: cart.items });
   } catch (err) {
+    console.error('Cart controller error (addToCart):', err);
     next(new HttpException(500, 'Failed to add to cart'));
   }
 }
@@ -104,6 +106,7 @@ export const updateCartItem = async (req, res, next) => {
 
     return res.status(200).json({ success: true, data: cart.items });
   } catch (err) {
+    console.error('Cart controller error (updateCartItem):', err);
     next(new HttpException(500, 'Failed to update cart item'));
   }
 }
@@ -131,6 +134,7 @@ export const removeFromCart = async (req, res, next) => {
 
     return res.status(200).json({ success: true, data: cart.items });
   } catch (err) {
+    console.error('Cart controller error (removeFromCart):', err);
     next(new HttpException(500, 'Failed to remove from cart'));
   }
 }

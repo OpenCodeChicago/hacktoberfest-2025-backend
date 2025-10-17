@@ -8,9 +8,9 @@
  * @param {Response} res - Express response object.
  * @param {Function} _next - Express next middleware function (unused).
  */
-export default function errorHandler(err, req, res, next) {
-
-  console.error("Error:", err.message);
+export default function errorHandler(err, _req, res) {
+  // Log full error server-side (stack if available)
+  console.error("Error:", err.stack || err);
 
   const status = err?.statusCode ? err.statusCode : 500;
   const response = {
@@ -19,7 +19,7 @@ export default function errorHandler(err, req, res, next) {
   };
 
   // stack trace (only in development)
-  if(process.env.NODE_ENV == 'development') response.stack = err.stack;
+  if (process.env.NODE_ENV === 'development') response.stack = err.stack;
 
   res.status(status).json(response);
 }

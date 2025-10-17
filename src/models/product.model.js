@@ -30,6 +30,8 @@ const productSchema = new mongoose.Schema({
   versionKey: false,
 });
 
+productSchema.index({ collections: 1 });
+
 const Product = mongoose.model('Product', productSchema);
 
 export default Product;

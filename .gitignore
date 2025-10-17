@@ -140,4 +140,6 @@ vite.config.ts.timestamp-*
 
 # ...existing rules...
 src/playground-1.mongodb.js
-.env.example
+.env.example.DS_Store
+src/.DS_Store
+.DS_Store

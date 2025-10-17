@@ -153,4 +153,22 @@ const getHighlyRecommendedProducts = async (req, res, next) => {
   })
 }
 
-export { getAllProducts, getProductById, getHighlyRecommendedProducts }
+const getProductBySortCategory = async (req, res, next) => {
+  const sort = req.params.sort;
+  const sortOptions = {
+    best_selling: { sale: -1 }, // Default
+    a_z: { name: 1 },
+    z_a: { name: -1 },
+    price_asc: { price: 1 },
+    price_desc: { price: -1 },
+    rating_asc: { rating: 1 },
+    rating_desc: { rating: -1 },
+  };
+  sort = typeof sort == "string" && sortOptions[sort] ? sortOptions[sort] : sortOptions['best_selling'];
+  const products = (await Product.find()).sort(sort);
+  if (!products)
+    return next(new HttpException(404, "No products found"));
+  return res.json(products);
+}
+
+export { getAllProducts, getProductById, getProductBySortCategory, getHighlyRecommendedProducts };
