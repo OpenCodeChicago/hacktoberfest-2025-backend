@@ -11,6 +11,9 @@ import errorHandler from './middleware/error-handler.middleware.js';
 import notFound from './middleware/notFound.middleware.js';
 import { corsMiddleware, securityHeaders, corsErrorHandler } from './middleware/cors.middleware.js';
 import { generalRateLimit, authRateLimit, speedLimiter, strictRateLimit } from './middleware/rateLimiter.middleware.js';
+import notFound from './middleware/notFound.middleware.js'
+import authRoutes from "./routes/auth.routes.js"
+
 const app = express();
 
 // Security middleware (must be first)
@@ -47,6 +50,9 @@ app.use('/auth', authRateLimit, authRoutes);
 
 // CORS error handler
 app.use(corsErrorHandler);
+
+//Login
+app.use('/api/auth', authRoutes);
 
 // Middleware for not found 404
 app.use(notFound);
