@@ -1,7 +1,7 @@
 import passport from 'passport';
 import pkg from 'passport-google-oauth20';
 const GoogleStrategy = pkg.Strategy || pkg;
-import User from '../models/user.model.js';
+import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 import { sendPendingLinkEmail } from '../utils/email.util.js';
 

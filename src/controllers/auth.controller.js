@@ -1,5 +1,5 @@
 import passport from '../config/passport.config.js';
-import User from '../models/user.model.js';
+import User from '../models/User.js';
 import { generateToken } from '../config/passport.config.js';
 import crypto from 'crypto';
 

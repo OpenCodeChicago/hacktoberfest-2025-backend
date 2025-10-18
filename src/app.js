@@ -30,7 +30,7 @@ app.use(speedLimiter);
 // Initialize Passport
 app.use(passport.initialize());
 
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     res.send("Welcome to Homepage");
 })
 

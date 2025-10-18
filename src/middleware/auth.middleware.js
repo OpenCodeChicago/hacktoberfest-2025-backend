@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import HttpException from '../utils/exceptions/http.exception.js';
-import User from '../models/user.model.js';
+import User from '../models/User.js';
 
 /**
  * JWT Authentication Middleware
