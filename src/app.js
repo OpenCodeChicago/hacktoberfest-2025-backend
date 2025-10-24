@@ -10,7 +10,7 @@ import authRoutes from './routes/auth.routes.js';
 import errorHandler from './middleware/error-handler.middleware.js';
 import notFound from './middleware/notFound.middleware.js';
 import { corsMiddleware, securityHeaders, corsErrorHandler } from './middleware/cors.middleware.js';
-import { generalRateLimit, authRateLimit, speedLimiter, strictRateLimit } from './middleware/rateLimiter.middleware.js';
+import { generalRateLimit } from './middleware/rateLimiter.middleware.js';
 const app = express();
 
 // Security middleware (must be first)
@@ -24,8 +24,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Rate limiting middleware
-app.use(generalRateLimit);
-app.use(speedLimiter);
+//(Already implemented rate limiting specific to routes)
 
 // Initialize Passport
 app.use(passport.initialize());
@@ -35,15 +34,21 @@ app.get('/',(req,res)=>{
 })
 
 // Routes with specific rate limiting
-app.use('/api/products', productRoutes);
-app.use('/api/cart', cartRoutes);
+
+// Common user behavior — frequent fetches.
+app.use('/api/products', generalRateLimit(100,1), productRoutes);
+
+//Prevent automated bots or misuse.
+app.use('/api/cart', generalRateLimit(50,1), cartRoutes);
+app.use('/api/wishlist',generalRateLimit(50,1), wishlistRoutes);
+
+
 app.use('/api/collections', collectionRoutes);
-app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/test', testRoutes);
 app.use('/api/test-security', testSecurityRoutes);
 
 // Auth routes with stricter rate limiting
-app.use('/auth', authRateLimit, authRoutes);
+app.use('/api/auth', authRoutes);
 
 // CORS error handler
 app.use(corsErrorHandler);

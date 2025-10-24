@@ -1,8 +1,8 @@
 import express from 'express';
-import { strictRateLimit } from '../middleware/rateLimiter.middleware.js';
+import { generalRateLimit } from '../middleware/rateLimiter.middleware.js';
 
 const router = express.Router();
-
+const strictRateLimit = generalRateLimit(10,1);
 /**
  * GET /api/test/rate-limit
  * Test endpoint to verify rate limiting is working

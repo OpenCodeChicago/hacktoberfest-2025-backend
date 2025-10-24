@@ -123,3 +123,87 @@ export const refreshToken = async (req, res) => {
     return res.status(500).json({ success: false, message: 'Failed to refresh token' });
   }
 };
+
+export const login = (req,res,next)=>{
+  passport.authenticate('local',{session: false}, async(err,user,info)=>{
+    if(err){
+      return res.status(500).json({message: info?.message || "Server side error"});
+    }
+    if(!user && info?.message === "Invalid credentials"){
+      return res.status(401).json({message: info?.message});
+    }
+    else if(!user){
+      return res.status(404).json({message: info?.message || "User not found"});
+    }
+
+    const userDetails = await User.findById(user._id);
+    const {email, firstName, lastName} = userDetails;
+    const token = generateToken(userDetails);
+
+    return res.status(200).json({
+      message:info?.message,
+      userDetails: {
+        email,
+        firstName,
+        lastName
+      },
+      token: token
+    });
+  })(req,res,next);
+}
+
+export const signUp = async(req,res,next)=>{
+  const {email, name, firstName, lastName, password, authProvider}  =req.body;
+  if(!email || !name || !firstName ||!lastName || !password){
+    res.statusCode = 400;
+    next(new Error("Required Details are missing"));
+  }
+
+  try{
+
+    const user = await User.findOne({
+      $or: [{email},{name}]
+    });
+
+    if(user){
+      res.statusCode = 400;
+      throw new Error("User with email or name already exists");
+    }
+    
+    // Whitelist only allowed fields to prevent mass assignment
+    const allowedFields = {
+      email,
+      name,
+      firstName,
+      lastName,
+      password,
+      authProvider: authProvider || 'local' // default to 'local' if not provided
+    };
+    
+    await User.create(allowedFields);
+    res.status(201).json({
+      message: "User signed up successfully",
+      userDetail: {
+        userName: name,
+        email: email,
+        firstName: firstName,
+        lastName: lastName
+      }
+    });
+
+  }catch(err){
+
+    if(err.name === "ValidationError"){
+      const errors = Object.values(err.errors).map(e => e.message);
+      return res.status(400).json({
+        name: err.name,
+        message: "Validation Failed",
+        errors
+      });
+    }
+
+    res.status(500).json({
+      error: err.message,
+      message: "Internal server error during signup"});
+  }
+}

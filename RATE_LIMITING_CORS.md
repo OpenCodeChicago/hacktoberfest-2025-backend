@@ -6,8 +6,17 @@ This implementation provides comprehensive rate limiting and CORS configuration 
 ## Features Implemented
 
 ### 1. Rate Limiting
-- **General API**: 50 requests/minute (production), 100 requests/minute (development)
-- **Authentication**: 5 attempts per 15 minutes
+- **General API**: 
+      PRODUCTS API: 100 requests/minute 
+      CART API: 50 requests/minute 
+      WISHLIST API: 50 requests/minute  
+- **Authentication**: 
+      LOGIN: 2 attempts per 1 minute
+      SIGNUP: 3 attempts per 60 minutes
+- **Protected Routes**:
+      PROFILE: 60 requests/minute 
+      LOGOUT: 10 requests/minute 
+      REFRESH: 5 requests/minute 
 - **Strict Operations**: 10 requests per minute
 - **Progressive Slowdown**: Delays after 20 requests in 15 minutes
 
@@ -53,12 +62,6 @@ GET /api/test-security/security-headers
 NODE_ENV=production  # Enables stricter rate limits
 JWT_SECRET=your-secret-key
 ```
-
-### Rate Limits
-- **General**: 50/min (prod), 100/min (dev)
-- **Auth**: 5 attempts per 15 minutes
-- **Strict**: 10 requests per minute
-- **Speed Limit**: 20 requests, then 500ms delay
 
 ### CORS Origins
 - `http://localhost:3000` (React)
