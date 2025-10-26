@@ -20,6 +20,7 @@ Whether it’s your **first pull request** or your **50th**, you are welcome her
 Contribute to real-world open source code, learn backend development, and collaborate with a global community.
 
 ### ⭐ Support the Project!
+
 If you like this project, please consider giving it a ⭐ on GitHub!
 More stars help us reach a wider audience, attract new contributors, and make your contributions even more visible and valuable for your portfolio or employer.
 Thank you for helping our open source community grow!
@@ -36,6 +37,7 @@ Thank you for helping our open source community grow!
 - [Quick Start](#quick-start)
 - [Features](#features)
 - [Project Structure](#project-structure)
+- [Running Tests](#running-tests)
 - [Contributing](#contributing)
 - [Hacktoberfest Contribution Guide](#hacktoberfest-contribution-guide)
 - [Documentation](#documentation)
@@ -57,23 +59,21 @@ New contributors can help with APIs, database models, and documentation.
 
 ## Who is this for?
 
-- Beginners making their **first open source contribution**  
-- Intermediate devs learning **Node.js, Express.js, REST APIs**  
-- Experienced contributors who want to **mentor others**  
+- Beginners making their **first open source contribution**
+- Intermediate devs learning **Node.js, Express.js, REST APIs**
+- Experienced contributors who want to **mentor others**
 
 ---
 
 ## Tech Stack
 
-- **Node.js** – runtime  
-- **Express.js** – server framework  
-- **ESLint + Prettier** – linting & formatting  
-- **Jest / Supertest** – (optional) testing  
-- **GitHub Actions** – CI/CD pipelines  
+- **Node.js** – runtime
+- **Express.js** – server framework
+- **ESLint + Prettier** – linting & formatting
+- **Jest / Supertest** – (optional) testing
+- **GitHub Actions** – CI/CD pipelines
 
 ---
-
-
 
 ## Quick Start
 
@@ -102,30 +102,41 @@ npm run dev
 To work on this project locally, follow these steps:
 
 1. **Set up your own MongoDB database**
-  - You can use [MongoDB Atlas](https://www.mongodb.com/atlas/database) (free tier) or run MongoDB locally.
+
+- You can use [MongoDB Atlas](https://www.mongodb.com/atlas/database) (free tier) or run MongoDB locally.
+
 2. **Copy environment variables**
-  - Copy `.env.example` to `.env`:
-    ```bash
-    cp .env.example .env
-    ```
-  - Fill in your own values for `MONGODB_URI` and other variables in `.env`.
+
+- Copy `.env.example` to `.env`:
+  ```bash
+  cp .env.example .env
+  ```
+- Fill in your own values for `MONGODB_URI` and other variables in `.env`.
+
 3. **Seed the database**
-  - Run the seed script to populate your local database with sample data:
-    ```bash
-    npm run seed
-    ```
+
+- Run the seed script to populate your local database with sample data:
+  ```bash
+  npm run seed
+  ```
+
 4. **Start the development server**
-  - Run:
-    ```bash
-    npm run dev
-    ```
+
+- Run:
+  ```bash
+  npm run dev
+  ```
+
 5. **Lint your code before committing**
-  - Run:
-    ```bash
-    npm run lint
-    ```
+
+- Run:
+  ```bash
+  npm run lint
+  ```
+
 6. **Ready to contribute!**
-  - Pick an issue, create a branch, and start coding.
+
+- Pick an issue, create a branch, and start coding.
 
 ---
 
@@ -162,43 +173,73 @@ hacktoberfest-2025-backend/
 
 ---
 
-## Contributing
+## Running Tests
 
-We welcome contributions from **everyone**!
-Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on how to get started.  
+This project uses [Jest](https://jestjs.io/) for unit testing.
+
+### Run all tests
+
+```bash
+npm test
+```
+
+### Run a single test file
+
+```bash
+npx jest __tests__/utils.test.js
+```
+
+### Notes
+
+1. Tests currently cover models, controllers, and utility functions.
+2. You can add your own test files in the **tests** folder following the same structure.
+3. Jest uses mongodb-memory-server for in-memory database testing, so you do not need to have a real MongoDB instance running for tests.
 
 ---
 
+## Contributing
+
+We welcome contributions from **everyone**!
+Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on how to get started.
+
+---
 
 ## Hacktoberfest Contribution Guide
 
 1. Fork this repository
 2. Check our [Project Board](https://github.com/orgs/OpenCodeChicago/projects/2)
-  - Look for an issue you’d like to work on
-  - Comment on the issue to let others know you’re taking it
-  - Maintainers may assign you to it (to avoid duplicates)
+
+- Look for an issue you’d like to work on
+- Comment on the issue to let others know you’re taking it
+- Maintainers may assign you to it (to avoid duplicates)
+
 3. Create a new branch:
-  ```bash
-  git checkout -b my-new-feature
-  ```
+
+```bash
+git checkout -b my-new-feature
+```
+
 4. Set up your local environment (see above)
-  - Make sure your `.env` is configured and your database is seeded
+
+- Make sure your `.env` is configured and your database is seeded
+
 5. Make your changes (small, clear commits)
 6. Run `npm run lint` before pushing
 7. Open a Pull Request
-  - All PRs are automatically checked for linting in CI
-  - Tip: Start with [Good First Issues](https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/labels/good%20first%20issue)
+
+- All PRs are automatically checked for linting in CI
+- Tip: Start with [Good First Issues](https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/labels/good%20first%20issue)
 
 ---
 
 ## Documentation
 
-- [Usage Guide](docs/usage.md)  
-- [FAQ](docs/faq.md)  
-- [Contributing Guidelines](CONTRIBUTING.md)  
-- [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md)  
-- [Code Owners](.github/CODEOWNERS)  
-- [Issue Templates](.github/ISSUE_TEMPLATE/)  
+- [Usage Guide](docs/usage.md)
+- [FAQ](docs/faq.md)
+- [Contributing Guidelines](CONTRIBUTING.md)
+- [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md)
+- [Code Owners](.github/CODEOWNERS)
+- [Issue Templates](.github/ISSUE_TEMPLATE/)
 
 ---
 
@@ -228,7 +269,7 @@ Thanks goes to these wonderful people:
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://allcontributors.org) specification.  
+This project follows the [all-contributors](https://allcontributors.org) specification.
 
 > Want to be listed here? [See how to add yourself!](./CONTRIBUTING.md#get-recognized-with-the-all-contributors-bot)
 
@@ -245,7 +286,7 @@ This project is licensed under the [MIT License](LICENSE).
 ## Feedback
 
 We welcome feedback and suggestions to improve the template’s functionality and usability.  
-Feel free to [open an issue](https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/issues) or [start a discussion](https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/discussions).  
+Feel free to [open an issue](https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/issues) or [start a discussion](https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/discussions).
 
 ---
 
