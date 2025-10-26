@@ -25,7 +25,8 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "lint": "eslint . --ext .js",
-    "seed": "node scripts/seed.js"
+    "seed": "node scripts/seed.js",
+    "test": "jest"
   },
   "keywords": [
     "hacktoberfest",
@@ -52,7 +53,6 @@
     "express-session": "^1.18.2",
     "express-slow-down": "^3.0.0",
     "helmet": "^8.1.0",
-    "jest": "^30.2.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.0",
     "nodemailer": "^7.0.9",
@@ -60,7 +60,12 @@
     "passport-google-oauth20": "^2.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
+    "babel-jest": "^30.2.0",
     "eslint": "^9.38.0",
+    "jest": "^30.2.0",
+    "mongodb-memory-server": "^10.2.3",
     "nodemon": "^3.1.10"
   }
 }
