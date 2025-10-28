@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Product from "../models/Product.js";
+import RecommendedProduct from "../models/RecommendedProduct.js"; // changed import
 
 export const getRecommendedProducts = async (req, res) => {
   try {
@@ -10,10 +10,11 @@ export const getRecommendedProducts = async (req, res) => {
     }
 
     // Find the main product
-    const product = await Product.findById(id);
+    const product = await RecommendedProduct.findById(id);
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
+
     const conditions = [{ category: product.category }];
     if (product.goals && product.goals.length > 0) {
       conditions.push({ goals: { $in: product.goals } });
@@ -22,7 +23,7 @@ export const getRecommendedProducts = async (req, res) => {
       conditions.push({ collections: { $in: product.collections } });
     }
 
-    const recommended = await Product.aggregate([
+    const recommended = await RecommendedProduct.aggregate([
       {
         $match: {
           _id: { $ne: product._id },

@@ -11,5 +11,5 @@ const productSchema = new mongoose.Schema({
   image: { type: String },
 }, { timestamps: true });
 
-const Product = mongoose.model("Product", productSchema);
-export default Product;
+const RecommendedProduct = mongoose.model("RecommendedProduct", productSchema);
+export default RecommendedProduct;

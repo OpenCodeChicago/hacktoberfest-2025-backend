@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import mongoose from 'mongoose';
 import app from './src/app.js';
-import recomendedRouter from './src/routes/recomended.route.js';
+import recommendedRouter from './src/routes/recommended.route.js';
 
 const PORT = process.env.PORT || 5000;
 
@@ -33,7 +33,7 @@ const startServer = async () => {
   }
 };
 
-app.use('/recomended', recomendedRouter)
+app.use('/recommended', recommendedRouter)
 // Handle MongoDB connection events
 mongoose.connection.on('error', (err) => {
   console.error('❌ MongoDB connection error:', err);
