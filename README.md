@@ -263,6 +263,7 @@ Thanks goes to these wonderful people:
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/sharanyaa23"><img src="https://avatars.githubusercontent.com/u/182519645?v=4?s=100" width="100px;" alt="Sharanya Pillai"/><br /><sub><b>Sharanya Pillai</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/commits?author=sharanyaa23" title="Code">💻</a> <a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/commits?author=sharanyaa23" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/AndrewThompson999"><img src="https://avatars.githubusercontent.com/u/143540608?v=4?s=100" width="100px;" alt="Andy"/><br /><sub><b>Andy</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/commits?author=AndrewThompson999" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
