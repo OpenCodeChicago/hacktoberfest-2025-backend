@@ -74,6 +74,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "sharanyaa23",
+      "name": "Sharanya Pillai",
+      "avatar_url": "https://avatars.githubusercontent.com/u/182519645?v=4",
+      "profile": "https://github.com/sharanyaa23",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "commitType": "docs",
