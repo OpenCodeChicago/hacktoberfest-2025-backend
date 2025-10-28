@@ -3,12 +3,15 @@ import Cart from '../models/cart.model.js';
 import Product from '../models/product.model.js';
 import HttpException from '../utils/exceptions/http.exception.js';
 
-// Helper to get or create a cart for a user
+const MAX_QUANTITY = 100; // reasonable upper bound for quantity per item
+
+// Helper to get or create a cart for a user (atomic/upsert to avoid races)
 async function findOrCreateCart(userId) {
-  let cart = await Cart.findOne({ userId });
-  if (!cart) {
-    cart = await Cart.create({ userId, items: [] });
-  }
+  const cart = await Cart.findOneAndUpdate(
+    { userId },
+    { $setOnInsert: { userId, items: [] } },
+    { new: true, upsert: true }
+  );
   return cart;
 }
 
@@ -37,15 +40,18 @@ export const addToCart = async (req, res, next) => {
     const { userId } = req.params;
     const { productId, quantity } = req.body || {};
 
-    if (!userId || typeof userId !== 'string') {
+    if (!userId || typeof userId !== 'string' || userId.length > 200) {
       return next(new HttpException(400, 'Invalid or missing userId'));
     }
     if (!productId || !mongoose.Types.ObjectId.isValid(productId)) {
       return next(new HttpException(400, 'Invalid or missing productId'));
     }
-    const qty = Number(quantity) || 1;
-    if (qty < 1) {
+    let qty = Number(quantity) || 1;
+    if (!Number.isFinite(qty) || qty < 1) {
       return next(new HttpException(400, 'Quantity must be at least 1'));
+    }
+    if (qty > MAX_QUANTITY) {
+      return next(new HttpException(400, `Quantity must be <= ${MAX_QUANTITY}`));
     }
 
     const product = await Product.findById(productId);
@@ -57,9 +63,9 @@ export const addToCart = async (req, res, next) => {
 
     const existing = cart.items.find((it) => it.productId.toString() === productId);
     if (existing) {
-      existing.quantity += qty;
+      existing.quantity = Math.min(existing.quantity + qty, MAX_QUANTITY);
     } else {
-      cart.items.push({ productId, quantity: qty });
+      cart.items.push({ productId, quantity: Math.min(qty, MAX_QUANTITY) });
     }
 
     await cart.save();
@@ -138,5 +144,3 @@ export const removeFromCart = async (req, res, next) => {
     next(new HttpException(500, 'Failed to remove from cart'));
   }
 }
-
-
