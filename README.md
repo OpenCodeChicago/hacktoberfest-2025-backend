@@ -261,6 +261,9 @@ Thanks goes to these wonderful people:
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/shiv7shukla"><img src="https://avatars.githubusercontent.com/u/185540301?v=4?s=100" width="100px;" alt="shiv7shukla"/><br /><sub><b>shiv7shukla</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/commits?author=shiv7shukla" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://dikamjit-borah.github.io"><img src="https://avatars.githubusercontent.com/u/36004021?v=4?s=100" width="100px;" alt="Dikamjit Borah"/><br /><sub><b>Dikamjit Borah</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/commits?author=dikamjit-borah" title="Code">💻</a></td>
     </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/sharanyaa23"><img src="https://avatars.githubusercontent.com/u/182519645?v=4?s=100" width="100px;" alt="Sharanya Pillai"/><br /><sub><b>Sharanya Pillai</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/commits?author=sharanyaa23" title="Code">💻</a> <a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/commits?author=sharanyaa23" title="Documentation">📖</a></td>
+    </tr>
   </tbody>
 </table>
 
