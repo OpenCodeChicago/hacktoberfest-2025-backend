@@ -2,6 +2,8 @@ import jwt from 'jsonwebtoken';
 import HttpException from '../utils/exceptions/http.exception.js';
 import User from '../models/user.model.js';
 
+const JWT_ALGO = process.env.JWT_ALGO || 'HS256';
+
 /**
  * JWT Authentication Middleware
  * Verifies JWT token, checks tokenVersion and user state, sets req.user
@@ -23,7 +25,7 @@ const authenticateToken = async (req, res, next) => {
 
     let decoded;
     try {
-      decoded = jwt.verify(token, secret);
+      decoded = jwt.verify(token, secret, { algorithms: [JWT_ALGO] });
     } catch (err) {
       if (err.name === 'TokenExpiredError') {
         return next(new HttpException(401, 'Token expired. Please login again.'));
@@ -42,12 +44,14 @@ const authenticateToken = async (req, res, next) => {
       return next(new HttpException(401, 'Invalid token: user not found or inactive'));
     }
 
-    const tokenVersion = decoded.tokenVersion || 0;
+    const tokenVersion = Number(decoded.tokenVersion || 0);
     if ((user.tokenVersion || 0) !== tokenVersion) {
       return next(new HttpException(401, 'Token revoked. Please login again.'));
     }
 
-    req.user = decoded;
+    // normalize req.user for downstream handlers
+    req.user = { userId, tokenVersion, ...decoded };
+
     return next();
   } catch (error) {
     console.error('Auth middleware error:', error);
@@ -76,7 +80,7 @@ const optionalAuth = async (req, res, next) => {
     }
 
     try {
-      const decoded = jwt.verify(token, secret);
+      const decoded = jwt.verify(token, secret, { algorithms: [JWT_ALGO] });
       const userId = decoded.userId || decoded.id || decoded.sub;
       if (!userId) {
         req.user = null;
@@ -87,13 +91,12 @@ const optionalAuth = async (req, res, next) => {
         req.user = null;
         return next();
       }
-      if ((user.tokenVersion || 0) !== (decoded.tokenVersion || 0)) {
+      if ((user.tokenVersion || 0) !== (Number(decoded.tokenVersion) || 0)) {
         req.user = null;
         return next();
       }
-      req.user = decoded;
+      req.user = { userId, tokenVersion: Number(decoded.tokenVersion || 0), ...decoded };
     } catch {
-      // invalid or expired token -> treat as unauthenticated
       req.user = null;
     }
     return next();
