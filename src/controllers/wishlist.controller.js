@@ -1,32 +1,29 @@
+import mongoose from 'mongoose';
 import Wishlist from '../models/wishlist.model.js';
 import Product from '../models/product.model.js';
 import HttpException from '../utils/exceptions/http.exception.js';
-import mongoose from 'mongoose';
 
-/**
- * GET /api/wishlist
- * Get user's wishlist with populated product details
- */
+const getUserIdFromReq = (req) => {
+  return req?.user?.userId || req?.user?.id || req?.user?._id;
+};
+
 const getWishlist = async (req, res, next) => {
   try {
-    const userId = req.user.id; // Assuming JWT middleware sets req.user
+    const userId = getUserIdFromReq(req);
+    if (!userId) return next(new HttpException(401, 'Unauthorized'));
 
     const wishlist = await Wishlist.findOne({ userId })
-      .populate('products.productId', 'name price image rating reviewsCount category collection')
+      .populate('products.productId', 'name price image rating reviewsCount category collections')
       .lean();
 
-    if (!wishlist) {
+    if (!wishlist || !wishlist.products || wishlist.products.length === 0) {
       return res.status(200).json({
         success: true,
         message: 'Wishlist is empty',
-        data: {
-          products: [],
-          totalItems: 0,
-        },
+        data: { products: [], totalItems: 0 },
       });
     }
 
-    // Transform the data to match expected format
     const products = wishlist.products.map(item => ({
       ...item.productId,
       addedAt: item.addedAt,
@@ -35,10 +32,7 @@ const getWishlist = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       message: 'Wishlist retrieved successfully',
-      data: {
-        products,
-        totalItems: products.length,
-      },
+      data: { products, totalItems: products.length },
     });
   } catch (error) {
     console.error('Error fetching wishlist:', error);
@@ -46,72 +40,45 @@ const getWishlist = async (req, res, next) => {
   }
 };
 
-/**
- * POST /api/wishlist
- * Add product to user's wishlist
- */
 const addToWishlist = async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const userId = getUserIdFromReq(req);
     const { productId } = req.body;
-
-    // Validate productId
-    if (!productId) {
-      return next(new HttpException(400, 'Product ID is required'));
+    if (!userId) return next(new HttpException(401, 'Unauthorized'));
+    if (!productId || !mongoose.Types.ObjectId.isValid(productId)) {
+      return next(new HttpException(400, 'Invalid product ID'));
     }
 
-    if (!mongoose.Types.ObjectId.isValid(productId)) {
-      return next(new HttpException(400, 'Invalid product ID format'));
+    const product = await Product.findById(productId).lean();
+    if (!product) return next(new HttpException(404, 'Product not found'));
+
+    // Atomic: only push if productId not already present
+    const update = {
+      $push: { products: { productId: mongoose.Types.ObjectId(productId), addedAt: new Date() } },
+      $setOnInsert: { userId: mongoose.Types.ObjectId(userId) },
+    };
+
+    const result = await Wishlist.updateOne(
+      { userId: mongoose.Types.ObjectId(userId), 'products.productId': { $ne: mongoose.Types.ObjectId(productId) } },
+      update,
+      { upsert: true }
+    );
+
+    if (result.matchedCount === 0 && result.upsertedCount === 0 && result.modifiedCount === 0) {
+      // nothing changed -> already exists
+      return next(new HttpException(409, 'Product already in wishlist'));
     }
 
-    // Check if product exists
-    const product = await Product.findById(productId);
-    if (!product) {
-      return next(new HttpException(404, 'Product not found'));
-    }
-
-    // Find or create wishlist
-    let wishlist = await Wishlist.findOne({ userId });
-
-    if (!wishlist) {
-      // Create new wishlist
-      wishlist = new Wishlist({
-        userId,
-        products: [{ productId, addedAt: new Date() }],
-      });
-    } else {
-      // Check if product already exists in wishlist
-      const existingProduct = wishlist.products.find(
-        item => item.productId.toString() === productId
-      );
-
-      if (existingProduct) {
-        return next(new HttpException(409, 'Product already in wishlist'));
-      }
-
-      // Add product to existing wishlist
-      wishlist.products.push({ productId, addedAt: new Date() });
-    }
-
-    await wishlist.save();
-
-    // Populate and return updated wishlist
-    const updatedWishlist = await Wishlist.findById(wishlist._id)
-      .populate('products.productId', 'name price image rating reviewsCount category collection')
+    const updated = await Wishlist.findOne({ userId })
+      .populate('products.productId', 'name price image rating reviewsCount category collections')
       .lean();
 
-    const products = updatedWishlist.products.map(item => ({
-      ...item.productId,
-      addedAt: item.addedAt,
-    }));
+    const products = (updated?.products || []).map(i => ({ ...i.productId, addedAt: i.addedAt }));
 
     return res.status(201).json({
       success: true,
       message: 'Product added to wishlist successfully',
-      data: {
-        products,
-        totalItems: products.length,
-      },
+      data: { products, totalItems: products.length },
     });
   } catch (error) {
     console.error('Error adding to wishlist:', error);
@@ -119,70 +86,40 @@ const addToWishlist = async (req, res, next) => {
   }
 };
 
-/**
- * DELETE /api/wishlist/:productId
- * Remove product from user's wishlist
- */
 const removeFromWishlist = async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const userId = getUserIdFromReq(req);
     const { productId } = req.params;
-
-    // Validate productId
-    if (!mongoose.Types.ObjectId.isValid(productId)) {
-      return next(new HttpException(400, 'Invalid product ID format'));
+    if (!userId) return next(new HttpException(401, 'Unauthorized'));
+    if (!productId || !mongoose.Types.ObjectId.isValid(productId)) {
+      return next(new HttpException(400, 'Invalid product ID'));
     }
 
-    // Find wishlist
-    const wishlist = await Wishlist.findOne({ userId });
+    const updated = await Wishlist.findOneAndUpdate(
+      { userId: mongoose.Types.ObjectId(userId) },
+      { $pull: { products: { productId: mongoose.Types.ObjectId(productId) } } },
+      { new: true }
+    ).populate('products.productId', 'name price image rating reviewsCount category collections').lean();
 
-    if (!wishlist) {
+    if (!updated) {
       return next(new HttpException(404, 'Wishlist not found'));
     }
 
-    // Check if product exists in wishlist
-    const productIndex = wishlist.products.findIndex(
-      item => item.productId.toString() === productId
-    );
-
-    if (productIndex === -1) {
-      return next(new HttpException(404, 'Product not found in wishlist'));
-    }
-
-    // Remove product from wishlist
-    wishlist.products.splice(productIndex, 1);
-    await wishlist.save();
-
-    // If wishlist is empty, delete it
-    if (wishlist.products.length === 0) {
-      await Wishlist.findByIdAndDelete(wishlist._id);
+    if (!updated.products || updated.products.length === 0) {
+      // wishlist empty -> delete doc if exists
+      await Wishlist.findByIdAndDelete(updated._id).catch(() => {});
       return res.status(200).json({
         success: true,
-        message: 'Product removed from wishlist successfully',
-        data: {
-          products: [],
-          totalItems: 0,
-        },
+        message: 'Product removed. Wishlist is now empty.',
+        data: { products: [], totalItems: 0 },
       });
     }
 
-    // Populate and return updated wishlist
-    const updatedWishlist = await Wishlist.findById(wishlist._id)
-      .populate('products.productId', 'name price image rating reviewsCount category collection')
-      .lean();
-
-    const products = updatedWishlist.products.map(item => ({
-      ...item.productId,
-      addedAt: item.addedAt,
-    }));
-
+    const products = updated.products.map(i => ({ ...i.productId, addedAt: i.addedAt }));
     return res.status(200).json({
       success: true,
       message: 'Product removed from wishlist successfully',
-      data: {
-        products,
-        totalItems: products.length,
-      },
+      data: { products, totalItems: products.length },
     });
   } catch (error) {
     console.error('Error removing from wishlist:', error);
@@ -190,34 +127,17 @@ const removeFromWishlist = async (req, res, next) => {
   }
 };
 
-/**
- * DELETE /api/wishlist
- * Clear entire wishlist
- */
 const clearWishlist = async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const userId = getUserIdFromReq(req);
+    if (!userId) return next(new HttpException(401, 'Unauthorized'));
 
-    const wishlist = await Wishlist.findOneAndDelete({ userId });
-
-    if (!wishlist) {
-      return res.status(200).json({
-        success: true,
-        message: 'Wishlist is already empty',
-        data: {
-          products: [],
-          totalItems: 0,
-        },
-      });
-    }
+    await Wishlist.findOneAndDelete({ userId });
 
     return res.status(200).json({
       success: true,
       message: 'Wishlist cleared successfully',
-      data: {
-        products: [],
-        totalItems: 0,
-      },
+      data: { products: [], totalItems: 0 },
     });
   } catch (error) {
     console.error('Error clearing wishlist:', error);
@@ -225,9 +145,4 @@ const clearWishlist = async (req, res, next) => {
   }
 };
 
-export {
-  getWishlist,
-  addToWishlist,
-  removeFromWishlist,
-  clearWishlist,
-};
+export { getWishlist, addToWishlist, removeFromWishlist, clearWishlist };
