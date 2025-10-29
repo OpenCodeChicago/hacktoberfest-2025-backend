@@ -124,86 +124,93 @@ export const refreshToken = async (req, res) => {
   }
 };
 
-export const login = (req,res,next)=>{
-  passport.authenticate('local',{session: false}, async(err,user,info)=>{
-    if(err){
-      return res.status(500).json({message: info?.message || "Server side error"});
-    }
-    if(!user && info?.message === "Invalid credentials"){
-      return res.status(401).json({message: info?.message});
-    }
-    else if(!user){
-      return res.status(404).json({message: info?.message || "User not found"});
-    }
+export const login = (req, res, next) => {
+  passport.authenticate('local', { session: false }, async (err, user, info) => {
+    try {
+      if (err) {
+        console.error('Passport local error:', err);
+        return res.status(500).json({ message: 'Authentication error' });
+      }
 
-    const userDetails = await User.findById(user._id);
-    const {email, firstName, lastName} = userDetails;
-    const token = generateToken(userDetails);
+      if (!user && info?.message === 'Invalid credentials') {
+        return res.status(401).json({ message: info?.message });
+      } else if (!user) {
+        return res.status(404).json({ message: info?.message || 'User not found' });
+      }
 
-    return res.status(200).json({
-      message:info?.message,
-      userDetails: {
-        email,
-        firstName,
-        lastName
-      },
-      token: token
-    });
-  })(req,res,next);
-}
+      // fetch fresh user doc to get latest tokenVersion / public fields
+      const userDetails = await User.findById(user._id);
+      if (!userDetails) {
+        return res.status(404).json({ message: 'User not found' });
+      }
 
-export const signUp = async(req,res,next)=>{
-  const {email, name, firstName, lastName, password, authProvider}  =req.body;
-  if(!email || !name || !firstName ||!lastName || !password){
-    res.statusCode = 400;
-    next(new Error("Required Details are missing"));
+      const token = generateToken(userDetails);
+
+      // prefer model helper toPublic if available, otherwise expose safe fields
+      const publicUser = typeof userDetails.toPublic === 'function'
+        ? userDetails.toPublic(false)
+        : {
+            email: userDetails.email,
+            firstName: userDetails.firstName,
+            lastName: userDetails.lastName,
+          };
+
+      return res.status(200).json({
+        message: info?.message || 'Login successful',
+        user: publicUser,
+        token
+      });
+    } catch (e) {
+      console.error('Login handler error:', e);
+      return res.status(500).json({ message: 'Server error during login' });
+    }
+  })(req, res, next);
+};
+
+export const signUp = async (req, res, next) => {
+  const { email, name, firstName, lastName, password, authProvider } = req.body;
+  if (!email || !name || !firstName || !lastName || !password) {
+    return next(new Error('Required details are missing'));
   }
 
-  try{
-
+  try {
     const user = await User.findOne({
-      $or: [{email},{name}]
+      $or: [{ email }, { name }]
     });
 
-    if(user){
-      res.statusCode = 400;
-      throw new Error("User with email or name already exists");
+    if (user) {
+      return res.status(400).json({ message: 'User with email or name already exists' });
     }
-    
-    // Whitelist only allowed fields to prevent mass assignment
+
     const allowedFields = {
       email,
       name,
       firstName,
       lastName,
       password,
-      authProvider: authProvider || 'local' // default to 'local' if not provided
+      authProvider: authProvider || 'local'
     };
-    
-    await User.create(allowedFields);
-    res.status(201).json({
-      message: "User signed up successfully",
-      userDetail: {
-        userName: name,
-        email: email,
-        firstName: firstName,
-        lastName: lastName
-      }
+
+    const created = await User.create(allowedFields);
+
+    const publicUser = typeof created.toPublic === 'function'
+      ? created.toPublic(false)
+      : { email: created.email, firstName: created.firstName, lastName: created.lastName };
+
+    return res.status(201).json({
+      message: 'User signed up successfully',
+      user: publicUser
     });
-
-  }catch(err){
-
-    if(err.name === "ValidationError"){
+  } catch (err) {
+    console.error('Signup error:', err);
+    if (err.name === 'ValidationError') {
       const errors = Object.values(err.errors).map(e => e.message);
       return res.status(400).json({
         name: err.name,
-        message: "Validation Failed",
+        message: 'Validation Failed',
         errors
       });
     }
-
-    res.status(500).json({
-      error: err.message,
-      message: "Internal server error during signup"});
+    return res.status(500).json({ message: 'Internal server error during signup' });
   }
-}
+};
