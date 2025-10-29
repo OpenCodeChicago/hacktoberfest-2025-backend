@@ -12,34 +12,56 @@ async function findOrCreateCart(userId) {
   return cart;
 }
 
-// GET /api/cart/:userId
+// Helper to transform cart items to include product details
+function transformCartItems(cartItems) {
+  return cartItems
+    .map((item) => {
+      const product = item.productId;
+      if (!product || !product._id) {
+        return null;
+      }
+      const productIdStr = product._id.toString();
+      return {
+        _id: product._id,
+        id: product._id,
+        productId: product._id,
+        cartItemKey: productIdStr,
+        name: product.name,
+        price: product.price,
+        salePercentage: product.sale || 0, // 'sale' field in model, not 'salePercentage'
+        image: product.image,
+        imageUrl: product.image,
+        category: product.category,
+        quantity: item.quantity,
+      };
+    })
+    .filter(Boolean);
+}
+
+// GET /api/cart
 export const getCart = async (req, res, next) => {
   try {
-    const { userId } = req.params;
-    if (!userId || typeof userId !== 'string') {
-      return next(new HttpException(400, 'Invalid or missing userId'));
-    }
+    const userId = req.user.userId; // From JWT token
 
     const cart = await Cart.findOne({ userId }).populate('items.productId');
+    const items = cart ? transformCartItems(cart.items) : [];
+
     return res.status(200).json({
       success: true,
-      data: cart ? cart.items : [],
+      data: items,
     });
   } catch (err) {
     console.error('Cart controller error (getCart):', err);
     next(new HttpException(500, 'Failed to fetch cart'));
   }
-}
+};
 
-// POST /api/cart/:userId  { productId, quantity? }
+// POST /api/cart  { productId, quantity? }
 export const addToCart = async (req, res, next) => {
   try {
-    const { userId } = req.params;
+    const userId = req.user.userId; // From JWT token
     const { productId, quantity } = req.body || {};
 
-    if (!userId || typeof userId !== 'string') {
-      return next(new HttpException(400, 'Invalid or missing userId'));
-    }
     if (!productId || !mongoose.Types.ObjectId.isValid(productId)) {
       return next(new HttpException(400, 'Invalid or missing productId'));
     }
@@ -55,7 +77,9 @@ export const addToCart = async (req, res, next) => {
 
     const cart = await findOrCreateCart(userId);
 
-    const existing = cart.items.find((it) => it.productId.toString() === productId);
+    const existing = cart.items.find(
+      (it) => it.productId.toString() === productId
+    );
     if (existing) {
       existing.quantity += qty;
     } else {
@@ -65,22 +89,21 @@ export const addToCart = async (req, res, next) => {
     await cart.save();
     await cart.populate('items.productId');
 
-    return res.status(200).json({ success: true, data: cart.items });
+    const transformedItems = transformCartItems(cart.items);
+    return res.status(200).json({ success: true, data: transformedItems });
   } catch (err) {
     console.error('Cart controller error (addToCart):', err);
     next(new HttpException(500, 'Failed to add to cart'));
   }
-}
+};
 
-// PUT /api/cart/:userId  { productId, quantity }
+// PUT /api/cart/:productId  { quantity }
 export const updateCartItem = async (req, res, next) => {
   try {
-    const { userId } = req.params;
-    const { productId, quantity } = req.body || {};
+    const userId = req.user.userId; // From JWT token
+    const { productId } = req.params;
+    const { quantity } = req.body || {};
 
-    if (!userId || typeof userId !== 'string') {
-      return next(new HttpException(400, 'Invalid or missing userId'));
-    }
     if (!productId || !mongoose.Types.ObjectId.isValid(productId)) {
       return next(new HttpException(400, 'Invalid or missing productId'));
     }
@@ -95,7 +118,9 @@ export const updateCartItem = async (req, res, next) => {
     }
 
     const cart = await findOrCreateCart(userId);
-    const existing = cart.items.find((it) => it.productId.toString() === productId);
+    const existing = cart.items.find(
+      (it) => it.productId.toString() === productId
+    );
     if (!existing) {
       return next(new HttpException(404, 'Product not in cart'));
     }
@@ -104,27 +129,28 @@ export const updateCartItem = async (req, res, next) => {
     await cart.save();
     await cart.populate('items.productId');
 
-    return res.status(200).json({ success: true, data: cart.items });
+    const transformedItems = transformCartItems(cart.items);
+    return res.status(200).json({ success: true, data: transformedItems });
   } catch (err) {
     console.error('Cart controller error (updateCartItem):', err);
     next(new HttpException(500, 'Failed to update cart item'));
   }
-}
+};
 
-// DELETE /api/cart/:userId/:productId
+// DELETE /api/cart/:productId
 export const removeFromCart = async (req, res, next) => {
   try {
-    const { userId, productId } = req.params;
-    if (!userId || typeof userId !== 'string') {
-      return next(new HttpException(400, 'Invalid or missing userId'));
-    }
+    const userId = req.user.userId; // From JWT token
+    const { productId } = req.params;
     if (!productId || !mongoose.Types.ObjectId.isValid(productId)) {
       return next(new HttpException(400, 'Invalid or missing productId'));
     }
 
     const cart = await findOrCreateCart(userId);
     const prevLength = cart.items.length;
-    cart.items = cart.items.filter((it) => it.productId.toString() !== productId);
+    cart.items = cart.items.filter(
+      (it) => it.productId.toString() !== productId
+    );
     if (cart.items.length === prevLength) {
       return next(new HttpException(404, 'Product not in cart'));
     }
@@ -132,11 +158,10 @@ export const removeFromCart = async (req, res, next) => {
     await cart.save();
     await cart.populate('items.productId');
 
-    return res.status(200).json({ success: true, data: cart.items });
+    const transformedItems = transformCartItems(cart.items);
+    return res.status(200).json({ success: true, data: transformedItems });
   } catch (err) {
     console.error('Cart controller error (removeFromCart):', err);
     next(new HttpException(500, 'Failed to remove from cart'));
   }
-}
-
-
+};

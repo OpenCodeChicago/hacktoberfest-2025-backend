@@ -123,21 +123,48 @@ const getProductById = async (req, res, next) => {
 }
 
 const getProductBySortCategory = async (req, res, next) => {
-  const sort = req.params.sort;
-  const sortOptions = {
-    best_selling: { sale: -1 }, // Default
-    a_z: { name: 1 },
-    z_a: { name: -1 },
-    price_asc: { price: 1 },
-    price_desc: { price: -1 },
-    rating_asc: { rating: 1 },
-    rating_desc: { rating: -1 },
-  };
-  sort=typeof sort=="string" && sortOptions[sort]?sortOptions[sort]:sortOptions['best_selling'];
-  const products=(await Product.find()).sort(sort);
-  if(!products)
-    return next(new HttpException(404, "No products found"));
-  return res.json(products);
-}
+  try {
+    const sortParam = req.params.sort;
+    const sortOptions = {
+      feature: { sale: -1 }, // Featured products
+      best_selling: { sale: -1 },
+      a_z: { name: 1 },
+      z_a: { name: -1 },
+      price_asc: { price: 1 },
+      price_desc: { price: -1 },
+      rating_asc: { rating: 1 },
+      rating_desc: { rating: -1 },
+    };
 
-export {getAllProducts, getProductById, getProductBySortCategory};
+    const sortCriteria = sortOptions[sortParam] || sortOptions['best_selling'];
+
+    // Pagination
+    let page = Number(req.query.page) || 1;
+    let limit = Number(req.query.limit) || 10;
+    if (page < 1 || isNaN(page)) page = 1;
+    if (limit < 1 || isNaN(limit)) limit = 10;
+
+    const total = await Product.countDocuments();
+    const pages = Math.ceil(total / limit) || 1;
+    if (page > pages) page = pages;
+
+    const products = await Product.find()
+      .sort(sortCriteria)
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    return res.status(200).json({
+      products,
+      page,
+      pages,
+      total,
+    });
+  } catch (error) {
+    console.error('Error fetching sorted products:', error);
+    return next(
+      new HttpException(500, 'Internal server error while fetching products')
+    );
+  }
+};
+
+export { getAllProducts, getProductById, getProductBySortCategory };

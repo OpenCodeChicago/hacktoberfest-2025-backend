@@ -1,19 +1,22 @@
 import express from 'express';
 import { getCart, addToCart, updateCartItem, removeFromCart } from '../controllers/cart.controller.js';
+import { authenticateToken } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 
-// GET /api/cart/:userId
-router.get('/:userId', getCart);
+// All cart routes require authentication
+router.use(authenticateToken);
+// GET /api/cart
+router.get('/', getCart);
 
-// POST /api/cart/:userId
-router.post('/:userId', addToCart);
+// POST /api/cart
+router.post('/', addToCart);
 
-// PUT /api/cart/:userId
-router.put('/:userId', updateCartItem);
+// PUT /api/cart/:productId
+router.put('/:productId', updateCartItem);
 
-// DELETE /api/cart/:userId/:productId
-router.delete('/:userId/:productId', removeFromCart);
+// DELETE /api/cart/:productId
+router.delete('/:productId', removeFromCart);
 
 export default router;
 

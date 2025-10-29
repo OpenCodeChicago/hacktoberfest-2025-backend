@@ -26,6 +26,7 @@ const registerRateLimit = generalRateLimit(3,60);
 router.post('/login',loginRateLimit, login);
 //register
 router.post('/signup',registerRateLimit, signUp);
+router.post('/register', registerRateLimit, signUp);
 
 // Google OAuth routes
 router.get('/google', googleAuth);

@@ -137,26 +137,49 @@ export const login = (req,res,next)=>{
     }
 
     const userDetails = await User.findById(user._id);
-    const {email, firstName, lastName} = userDetails;
+    const {email, firstName, lastName,name} = userDetails;
     const token = generateToken(userDetails);
 
-    return res.status(200).json({
-      message:info?.message,
-      userDetails: {
-        email,
-        firstName,
-        lastName
-      },
-      token: token
-    });
-  })(req,res,next);
-}
+      return res.status(200).json({
+        message: info?.message,
+        user: {
+          email,
+          firstName,
+          lastName,
+          name,
+        },
+        token: token
+      });
+    }  )(req,res,next);
+};
 
-export const signUp = async(req,res,next)=>{
-  const {email, name, firstName, lastName, password, authProvider}  =req.body;
-  if(!email || !name || !firstName ||!lastName || !password){
-    res.statusCode = 400;
-    next(new Error("Required Details are missing"));
+export const signUp = async (req, res, next) => {
+  let { email, name, firstName, lastName, password, authProvider } = req.body;
+
+  // Validate required fields
+  const missingFields = [];
+  if (!email) missingFields.push('email');
+  if (!name) missingFields.push('name');
+  if (!password) missingFields.push('password');
+
+  // If firstName/lastName not provided, try to split name
+  if (!firstName || !lastName) {
+    if (name && name.trim().includes(' ')) {
+      const nameParts = name.trim().split(/\s+/);
+      if (!firstName) firstName = nameParts[0];
+      if (!lastName) lastName = nameParts.slice(1).join(' ');
+    } else {
+      // Use name as both firstName and lastName if no space
+      if (!firstName) firstName = name || '';
+      if (!lastName) lastName = name || '';
+    }
+  }
+
+  if (missingFields.length > 0) {
+    return res.status(400).json({
+      message: 'Required fields are missing',
+      missingFields,
+    });
   }
 
   try{
@@ -165,9 +188,13 @@ export const signUp = async(req,res,next)=>{
       $or: [{email},{name}]
     });
 
-    if(user){
-      res.statusCode = 400;
-      throw new Error("User with email or name already exists");
+    if (user) {
+      return res.status(400).json({
+        message:
+          user.email === email
+            ? 'User with this email already exists'
+            : 'Username already taken',
+      });
     }
     
     // Whitelist only allowed fields to prevent mass assignment
@@ -179,10 +206,15 @@ export const signUp = async(req,res,next)=>{
       password,
       authProvider: authProvider || 'local' // default to 'local' if not provided
     };
-    
-    await User.create(allowedFields);
+
+    const newUser = await User.create(allowedFields);
+
+    // Generate token for immediate login
+    const token = generateToken(newUser);
+
     res.status(201).json({
       message: "User signed up successfully",
+      token,
       userDetail: {
         userName: name,
         email: email,
@@ -190,15 +222,21 @@ export const signUp = async(req,res,next)=>{
         lastName: lastName
       }
     });
-
-  }catch(err){
+  } catch (err) {
+    console.error('Signup error:', err);
 
     if(err.name === "ValidationError"){
       const errors = Object.values(err.errors).map(e => e.message);
       return res.status(400).json({
         name: err.name,
         message: "Validation Failed",
-        errors
+        errors,
+      });
+    }
+
+    if (err.message && err.message.includes('Password must be')) {
+      return res.status(400).json({
+        message: err.message,
       });
     }
 
