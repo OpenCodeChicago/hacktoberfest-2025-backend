@@ -1,5 +1,5 @@
 # .github/workflows/ci.yml
-name: CI
+name: Node.js CI
 
 on:
   push:
@@ -7,21 +7,44 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   build:
+    name: CI
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        node-version: ["20"]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
-      # Add your build, test, or deployment steps here
-      # Example for Node.js projects:
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: '20'
-      # - name: Install dependencies
-      #   run: npm install
-      # - name: Run tests
-      #   run: npm test
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint --if-present
+
+      - name: Run tests
+        run: npm test --if-present
+
+      - name: Run npm audit (informational)
+        run: npm audit --audit-level=high || true
+
+      - name: Upload test/coverage artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-artifacts
+          path: |
+            coverage
+            jest-results.xml
+            test-results
