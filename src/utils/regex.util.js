@@ -12,3 +12,13 @@ export const buildLookaheadRegex = (tokens = []) => {
   // keep it anchored (start) to reduce backtracking
   return new RegExp(`^${lookahead}.*$`, "i");
 };
+
+/**
+ * Basic email validation (practical, not full RFC5322).
+ * Returns true for common valid emails like "user@example.com".
+ * Note: prefer sending a confirmation email for final verification.
+ */
+export const isEmail = (s = '') => {
+  const re = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  return re.test(String(s).trim());
+};
