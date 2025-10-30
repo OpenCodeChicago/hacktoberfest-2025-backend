@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import mongoose from 'mongoose';
 import app from './src/app.js';
-
 const PORT = process.env.PORT || 5000;
 
 /**
@@ -31,6 +30,7 @@ const startServer = async () => {
     process.exit(1);
   }
 };
+
 
 // Handle MongoDB connection events
 mongoose.connection.on('error', (err) => {

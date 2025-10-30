@@ -11,6 +11,7 @@ import errorHandler from './middleware/error-handler.middleware.js';
 import notFound from './middleware/notFound.middleware.js';
 import { corsMiddleware, securityHeaders, corsErrorHandler } from './middleware/cors.middleware.js';
 import { generalRateLimit } from './middleware/rateLimiter.middleware.js';
+import recommendedRouter from './routes/recommended.route.js';
 const app = express();
 
 // Security middleware (must be first)
@@ -42,7 +43,7 @@ app.use('/api/products', generalRateLimit(100,1), productRoutes);
 app.use('/api/cart', generalRateLimit(50,1), cartRoutes);
 app.use('/api/wishlist',generalRateLimit(50,1), wishlistRoutes);
 
-
+app.use('/api/recommended', recommendedRouter);
 app.use('/api/collections', collectionRoutes);
 app.use('/api/test', testRoutes);
 app.use('/api/test-security', testSecurityRoutes);
