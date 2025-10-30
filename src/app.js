@@ -36,6 +36,10 @@ app.get('/',(req,res)=>{
 
 // Routes with specific rate limiting
 
+// IMPORTANT: mount recommendations BEFORE the productRoutes so the specific
+// /:id/recommendations path is matched before productRoutes' dynamic params.
+app.use('/api/products', generalRateLimit(100,1), recommendedRouter);
+
 // Common user behavior — frequent fetches.
 app.use('/api/products', generalRateLimit(100,1), productRoutes);
 
