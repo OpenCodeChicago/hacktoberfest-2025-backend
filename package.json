@@ -57,7 +57,8 @@
     "mongoose": "^8.19.0",
     "nodemailer": "^7.0.9",
     "passport": "^0.7.0",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",
