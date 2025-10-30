@@ -1,0 +1,71 @@
+{
+  "name": "hacktoberfest-2025-backend",
+  "version": "1.0.0",
+  "description": "Open Code Chicago's official backend project for for CoreX (Hacktoberfest 2025) - Node + Express + MongoDB. Open source, community-driven, and welcoming contributions from everyone.",
+  "homepage": "https://github.com/OpenCodeChicago/hacktoberfest-2025-backend",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OpenCodeChicago/hacktoberfest-2025-backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OpenCodeChicago/hacktoberfest-2025-backend/issues"
+  },
+  "contributors": [
+    {
+      "name": "Open Code Chicago Team",
+      "email": "info@opencodechicago.org"
+    }
+  ],
+  "main": "server.js",
+  "type": "module",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "lint": "eslint . --ext .js",
+    "seed": "node scripts/seed.js",
+    "test": "jest"
+  },
+  "keywords": [
+    "hacktoberfest",
+    "hacktoberfest2025",
+    "backend",
+    "nodejs",
+    "express",
+    "mongoose",
+    "mongodb",
+    "javascript",
+    "open-source",
+    "open-code-chicago",
+    "community"
+  ],
+  "author": "Open Code Chicago",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "express-session": "^1.18.2",
+    "express-slow-down": "^3.0.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.19.0",
+    "nodemailer": "^7.0.9",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
+    "babel-jest": "^30.2.0",
+    "eslint": "^9.38.0",
+    "jest": "^30.2.0",
+    "mongodb-memory-server": "^10.2.3",
+    "nodemon": "^3.1.10"
+  }
+}

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import RecommendedProduct from "../models/RecommendedProduct.js"; // changed import
+import RecommendedProduct from "../models/recommended.model"; // changed import
 
 export const getRecommendedProducts = async (req, res) => {
   try {

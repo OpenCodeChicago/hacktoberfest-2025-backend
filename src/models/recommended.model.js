@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  category: { type: String, required: true },
-  goals: [{ type: String }],
-  collections: [{ type: String }],
-  rating: { type: Number, default: 0 },
-  price: { type: Number },
-  description: { type: String },
-  image: { type: String },
+  name: { type: String, required: true, trim: true },
+  category: { type: String, required: true, trim: true },
+  goals: [{ type: String, trim: true }],
+  collections: [{ type: String, trim: true }],
+  rating: { type: Number, default: 0, min: 0, max: 5 },
+  price: { type: Number, required: true, min: 0 },
+  description: { type: String, trim: true },
+  image: { type: String, trim: true },
 }, { timestamps: true });
 
 const RecommendedProduct = mongoose.model("RecommendedProduct", productSchema);
