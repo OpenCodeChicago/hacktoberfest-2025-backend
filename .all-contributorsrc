@@ -102,6 +102,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "nikhil008-git",
+      "name": "Nikhil Rajpurohit",
+      "avatar_url": "https://avatars.githubusercontent.com/u/200982538?v=4",
+      "profile": "https://github.com/nikhil008-git",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "commitType": "docs",
