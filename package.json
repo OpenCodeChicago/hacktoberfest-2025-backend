@@ -53,7 +53,7 @@
     "express-session": "^1.18.2",
     "express-slow-down": "^3.0.1",
     "helmet": "^8.1.0",
-    "jsonwebtoken": "^9.0.2",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.0.0",
     "nodemailer": "^7.0.9",
     "passport": "^0.7.0",
