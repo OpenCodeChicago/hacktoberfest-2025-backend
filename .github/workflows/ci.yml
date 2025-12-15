@@ -41,7 +41,7 @@ jobs:
 
       - name: Upload test/coverage artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: test-artifacts
           path: |
