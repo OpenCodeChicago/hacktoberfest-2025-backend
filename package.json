@@ -66,7 +66,7 @@
     "babel-jest": "^30.3.0",
     "eslint": "^10.1.0",
     "jest": "^30.2.0",
-    "mongodb-memory-server": "^10.3.0",
+    "mongodb-memory-server": "^11.0.1",
     "nodemon": "^3.1.14"
   }
 }
