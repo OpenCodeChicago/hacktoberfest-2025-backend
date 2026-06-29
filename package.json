@@ -54,7 +54,7 @@
     "express-slow-down": "^3.1.0",
     "helmet": "^8.2.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^9.7.1",
+    "mongoose": "^9.7.3",
     "nodemailer": "^9.0.0",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
