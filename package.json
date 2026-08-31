@@ -63,7 +63,7 @@
   "devDependencies": {
     "@babel/core": "^8.0.1",
     "@babel/preset-env": "^7.29.7",
-    "babel-jest": "^30.3.0",
+    "babel-jest": "^30.5.0",
     "eslint": "^10.9.0",
     "jest": "^30.5.0",
     "mongodb-memory-server": "^11.2.0",
